@@ -1,0 +1,23 @@
+name: Build and push Docker images to Github Container Registry
+description: Build and push Docker images to Github Container Registry
+inputs:
+  user:
+    description: "User"
+    required: true
+  token:
+    description: "GitHub Token used to authenticate against a repository for Git context"
+    required: true
+  dockerfile:
+    description: "Path the Dockerfile"
+    default: "Dockerfile"
+    required: false
+  path:
+    description: "Build path"
+    default: "."
+    required: false
+branding:
+  icon: activity
+  color: red
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
