@@ -9995,6 +9995,7 @@ function getInputs() {
         token: core.getInput("token", { required: true }),
         dockerfile: core.getInput("dockerfile", { trimWhitespace: true }) || "Dockerfile",
         path: core.getInput("path", { trimWhitespace: true }) || ".",
+        tagUseBranchNameWhenPush: core.getBooleanInput("tagUseBranchNameWhenPush") || false,
     };
 }
 exports.getInputs = getInputs;
@@ -10058,6 +10059,16 @@ function run() {
             .then(() => __awaiter(this, void 0, void 0, function* () {
             yield exec.exec(`docker push ${tag}`);
         }));
+        if (input.tagUseBranchNameWhenPush && github.context.eventName == "push") {
+            core.info("Tag image with branch name");
+            const branchTag = `${imageName}:${github.context.ref.replace("refs/heads/", "")}`;
+            yield exec.exec(`docker tag ${tag} ${branchTag}`);
+            yield exec
+                .getExecOutput(`docker login ghcr.io -u ${input.user} -p ${input.token}`)
+                .then(() => __awaiter(this, void 0, void 0, function* () {
+                yield exec.exec(`docker push ${branchTag}`);
+            }));
+        }
     });
 }
 try {

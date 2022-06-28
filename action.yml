@@ -15,6 +15,10 @@ inputs:
     description: "Build path"
     default: "."
     required: false
+  tagUseBranchNameWhenPush:
+    description: "tagUseBranchNameWhenPush"
+    default: "false"
+    required: false
 branding:
   icon: activity
   color: red
