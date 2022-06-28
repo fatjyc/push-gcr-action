@@ -10,11 +10,14 @@
 
 **Required** The GitHub API token
 
-## Example usage
+## `tagUseBranchNameWhenPush`
+Tag use branch name when push
 
+## Example usage
 ```
 uses: fatjyc/push-gcr-action@v1.0
 with:
   user: ${{ user }}
   token: ${{ secrets.GH_TOKEN }}
+  tagUseBranchNameWhenPush: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
 ```

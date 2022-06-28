@@ -16,7 +16,7 @@ inputs:
     default: "."
     required: false
   tagUseBranchNameWhenPush:
-    description: "tagUseBranchNameWhenPush"
+    description: "Tag use branch name when push"
     default: "false"
     required: false
 branding:
