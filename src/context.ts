@@ -6,6 +6,7 @@ export interface Inputs {
     dockerfile: string;
     path: string;
     tagUseBranchNameWhenPush: boolean;
+    buildArg: string;
 }
 
 export function getInputs(): Inputs {
@@ -15,5 +16,6 @@ export function getInputs(): Inputs {
         dockerfile: core.getInput("dockerfile", { trimWhitespace: true }) || "Dockerfile",
         path: core.getInput("path", { trimWhitespace: true }) || ".",
         tagUseBranchNameWhenPush: core.getBooleanInput("tagUseBranchNameWhenPush") || false,
+        buildArg: core.getInput("buildArg", { trimWhitespace: true }) || "",
     };
 }
