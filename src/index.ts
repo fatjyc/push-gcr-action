@@ -10,8 +10,12 @@ async function run() {
     core.info(imageName);
     const shortSha = github.context.sha.substring(0, 7);
     const tag = `${imageName}:${shortSha}`;
+    const buildArg =
+        input.buildArg && input.buildArg.length > 0 ? `--build-arg ${input.buildArg}` : "";
 
-    await exec.exec(`docker build ${input.path} --file ${input.dockerfile} --tag ${tag}`);
+    await exec.exec(
+        `docker build ${input.path} --file ${input.dockerfile} --tag ${tag} ${buildArg}`
+    );
 
     await exec
         .getExecOutput(`docker login ghcr.io -u ${input.user} -p ${input.token}`)

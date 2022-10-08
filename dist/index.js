@@ -9996,6 +9996,7 @@ function getInputs() {
         dockerfile: core.getInput("dockerfile", { trimWhitespace: true }) || "Dockerfile",
         path: core.getInput("path", { trimWhitespace: true }) || ".",
         tagUseBranchNameWhenPush: core.getBooleanInput("tagUseBranchNameWhenPush") || false,
+        buildArg: core.getInput("buildArg", { trimWhitespace: true }) || "",
     };
 }
 exports.getInputs = getInputs;
@@ -10053,7 +10054,8 @@ function run() {
         core.info(imageName);
         const shortSha = github.context.sha.substring(0, 7);
         const tag = `${imageName}:${shortSha}`;
-        yield exec.exec(`docker build ${input.path} --file ${input.dockerfile} --tag ${tag}`);
+        const buildArg = input.buildArg && input.buildArg.length > 0 ? `--build-arg ${input.buildArg}` : "";
+        yield exec.exec(`docker build ${input.path} --file ${input.dockerfile} --tag ${tag} ${buildArg}`);
         yield exec
             .getExecOutput(`docker login ghcr.io -u ${input.user} -p ${input.token}`)
             .then(() => __awaiter(this, void 0, void 0, function* () {

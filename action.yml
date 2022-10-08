@@ -19,6 +19,10 @@ inputs:
     description: "Tag use branch name when push"
     default: "false"
     required: false
+  buildArg:
+    description: "Docker build arg"
+    required: false
+    default: ""
 branding:
   icon: activity
   color: red
